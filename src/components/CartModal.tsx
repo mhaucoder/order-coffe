@@ -1,22 +1,26 @@
 "use client";
 
 import { Button, Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
-import OrderItem from "@/types/orderItem";
+import OrderItem from "@/types/order";
 import { toast } from "react-toastify";
 
 interface CartModalProps {
   isOpen: boolean;
   onClose: () => void;
-  orderList: OrderItem[];
+  orderItems: OrderItem[];
   onRemove: (index: number) => void;
+  onSave: () => void;
 }
 
 export default function CartModal({
   isOpen,
   onClose,
-  orderList,
+  orderItems,
   onRemove,
+  onSave,
 }: CartModalProps) {
+
+  
   return (
     <Dialog open={isOpen} as="div" className="relative z-10" onClose={onClose}>
       {/* Overlay */}
@@ -34,9 +38,9 @@ export default function CartModal({
 
           {/* Danh sách đơn hàng */}
           <div className="flex-1 overflow-y-auto p-4 text-sm text-gray-700">
-            {orderList.length > 0 ? (
+            {orderItems.length > 0 ? (
               <ul className="space-y-3">
-                {orderList.map((orderItem, index) => (
+                {orderItems.map((orderItem, index) => (
                   <li
                     key={index}
                     className="flex items-center justify-between p-3 border border-gray-200 rounded-lg shadow-sm hover:bg-gray-50 transition"
@@ -60,7 +64,10 @@ export default function CartModal({
 
                     <div className="flex items-center gap-2">
                       <span className="text-gray-500 italic text-xs">
-                        {orderItem.member.name.split(" ").slice(-1)[0]}
+                        {orderItem.customer.name.trim().split(" ").length > 1
+                          ? `${orderItem.customer.name.trim().split(" ").slice(-2)[0]?.charAt(0)}
+                            .${orderItem.customer.name.trim().split(" ").slice(-1)[0]}`
+                          : orderItem.customer.name}
                       </span>
                       <button
                         onClick={() => onRemove(index)}
@@ -95,14 +102,14 @@ export default function CartModal({
           <div className="p-4 border-t border-gray-100 flex flex-col sm:flex-row gap-2">
             <Button
               onClick={() => {
-                if (orderList.length > 0) {
-                  const text = orderList
+                if (orderItems.length > 0) {
+                  const text = orderItems
                     .map((item, idx) => {
-                      const memberName = item.member.name;
+                      const customerName = item.customer.name;
                       const note = item.note ? ` (${item.note})` : "";
                       return `${idx + 1}. ${
                         item.drink.name
-                      } - ${memberName}${note}`;
+                      } - ${customerName}${note}`;
                     })
                     .join("\n");
 
@@ -123,6 +130,12 @@ export default function CartModal({
               className="w-full sm:w-1/2 py-2 bg-blue-600 text-white rounded-lg text-sm font-semibold hover:bg-blue-500 transition"
             >
               📋 Copy đơn hàng
+            </Button>
+            <Button
+              onClick={onSave}
+              className="w-full sm:w-1/2 py-2 bg-green-600 text-gray-800 rounded-lg text-sm font-semibold hover:bg-gray-400 transition"
+            >
+              Lưu đơn hàng
             </Button>
             <Button
               onClick={onClose}

@@ -1,11 +1,11 @@
-export type Member = {
+export type Customer = {
     _id?: string;
     name: string;
     username?: string;
     email?: string;
 };
 
-export type CreateMember = {
+export type CreateCustomer = {
     name: string;
     username?: string;
     email?: string;
