@@ -4,10 +4,10 @@ import OrderApp from '../components/OrderApp';
 import { Member } from '@/types/member';
 
 export default async function Page() {
-  const res1 = await fetch('http://localhost:3000/api/drink', { cache: 'no-store' });
+  const res1 = await fetch('/api/drink', { cache: 'no-store' });
   const drinks: Drink[] = await res1.json();
 
-  const res2 = await fetch('http://localhost:3000/api/member', { cache: 'no-store' });
+  const res2 = await fetch('/api/member', { cache: 'no-store' });
   const members: Member[] = await res2.json();
 
   return (
