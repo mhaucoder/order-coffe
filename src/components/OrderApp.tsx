@@ -19,6 +19,7 @@ export default function OrderApp({
   initialMembers,
 }: OrderAppProps) {
   const [searchDrink, setSearchDrink] = useState("");
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [searchMember, setSearchMember] = useState("");
   const [orderList, setOrderList] = useState<OrderItem[]>([]);
   const [showCart, setShowCart] = useState(false);
