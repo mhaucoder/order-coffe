@@ -1,4 +1,3 @@
-// components/OrderApp.tsx
 "use client";
 
 import { Drink } from "@/types/drink";
@@ -8,16 +7,18 @@ import OrderItem from "@/types/order";
 import { toast } from "react-toastify";
 import { Customer } from "@/types/customer";
 import CustomerModal from "./CustomerModal";
+import { useRouter } from "next/navigation";
 
-interface OrderAppProps {
+interface OrderPageProps {
   initialDrinks: Drink[];
   initialCustomers: Customer[];
 }
 
-export default function OrderApp({
+export default function OrderPage({
   initialDrinks,
   initialCustomers,
-}: OrderAppProps) {
+}: OrderPageProps) {
+  const router = useRouter();
   const [searchDrink, setSearchDrink] = useState("");
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [searchCustomer, setSearchCustomer] = useState("");
@@ -86,10 +87,32 @@ export default function OrderApp({
   return (
     <div className="p-4 font-sans max-w-md mx-auto relative bg-gray-50 min-h-screen">
       {/* Sticky Header */}
-      <header className="sticky top-0 z-20 bg-white shadow-md rounded-b-2xl px-4 pt-4 pb-3">
-        <h1 className="text-xl font-bold text-center text-gray-800 mb-2">
-          🧋 Vy Coffee
-        </h1>
+      <header className="sticky top-0 z-10 bg-white shadow-md rounded-xl px-4 pt-4 pb-3">
+        <div className="flex items-center justify-between mb-2">
+          {/* Nút quay về trang chủ */}
+          <button
+            onClick={() => router.push("/")}
+            className="text-sm text-blue-600 hover:text-blue-800 font-medium"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              className="size-6"
+            >
+              <path d="M11.47 3.841a.75.75 0 0 1 1.06 0l8.69 8.69a.75.75 0 1 0 1.06-1.061l-8.689-8.69a2.25 2.25 0 0 0-3.182 0l-8.69 8.69a.75.75 0 1 0 1.061 1.06l8.69-8.689Z" />
+              <path d="m12 5.432 8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 0 1-.75-.75v-4.5a.75.75 0 0 0-.75-.75h-3a.75.75 0 0 0-.75.75V21a.75.75 0 0 1-.75.75H5.625a1.875 1.875 0 0 1-1.875-1.875v-6.198a2.29 2.29 0 0 0 .091-.086L12 5.432Z" />
+            </svg>
+          </button>
+
+          <h1 className="text-xl font-bold text-center text-gray-800 flex-1">
+            🧋 Đặt món
+          </h1>
+
+          {/* Chiếm chỗ để canh giữa tiêu đề */}
+          <div className="w-[70px]" />
+        </div>
+
         <div className="relative">
           <input
             type="text"
@@ -98,6 +121,17 @@ export default function OrderApp({
             onChange={(e) => setSearchDrink(e.target.value)}
             className="w-full px-4 py-2 pr-10 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400"
           />
+
+          {/* Nút clear nếu có giá trị tìm kiếm */}
+          {searchDrink && (
+            <button
+              onClick={() => setSearchDrink("")}
+              className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+              title="Xóa tìm kiếm"
+            >
+              ✕
+            </button>
+          )}
         </div>
       </header>
 

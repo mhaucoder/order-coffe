@@ -129,13 +129,13 @@ export default function CartModal({
               }}
               className="w-full sm:w-1/2 py-2 bg-blue-600 text-white rounded-lg text-sm font-semibold hover:bg-blue-500 transition"
             >
-              📋 Copy đơn hàng
+              📋 Copy
             </Button>
             <Button
               onClick={onSave}
-              className="w-full sm:w-1/2 py-2 bg-green-600 text-gray-800 rounded-lg text-sm font-semibold hover:bg-gray-400 transition"
+              className="w-full sm:w-1/2 py-2 bg-green-600 text-white rounded-lg text-sm font-semibold hover:bg-gray-400 transition"
             >
-              Lưu đơn hàng
+              💾 Lưu
             </Button>
             <Button
               onClick={onClose}

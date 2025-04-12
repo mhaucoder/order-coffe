@@ -61,7 +61,7 @@ export default function CustomerModal({
                       🕵️‍♂️
                     </div>
                     <span className="text-yellow-800 font-semibold truncate">
-                      Không biết
+                      Khách
                     </span>
                   </button>
                 </li>

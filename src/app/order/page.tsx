@@ -1,6 +1,6 @@
 import { Drink } from '@/types/drink';
 import { Customer } from '@/types/customer';
-import OrderApp from '@/components/OrderApp';
+import OrderPage from '@/components/OrderPage';
 
 export default async function Page() {
   const res1 = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/drink`, { cache: 'no-store' });
@@ -11,7 +11,7 @@ export default async function Page() {
 
   return (
     <main>
-      <OrderApp initialDrinks={drinks} initialCustomers={customers} />
+      <OrderPage initialDrinks={drinks} initialCustomers={customers} />
     </main>
   );
 }
