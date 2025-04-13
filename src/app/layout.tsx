@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ToastContainer } from "react-toastify";
 import Footer from "@/components/Footer";
@@ -8,13 +7,8 @@ import Footer from "@/components/Footer";
 const inter = Inter({
   variable: "--font-sans",
   subsets: ["latin"],
-  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-mono",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   title: "PAP - Order Food",
@@ -27,7 +21,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="vi" className={`${inter.variable} ${geistMono.variable}`}>
+    <html lang="vi" className={`${inter.variable}`}>
       <body className="antialiased font-sans bg-gray-50 text-gray-800">
         {children}
         <ToastContainer position="top-center" autoClose={1500} />

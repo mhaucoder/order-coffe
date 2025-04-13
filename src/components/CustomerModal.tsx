@@ -123,7 +123,7 @@ export default function CustomerModal({
             ) : (
               <Button
                 onClick={onClose}
-                className="ml-auto px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition"
+                className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 transition"
               >
                 Đóng
               </Button>
