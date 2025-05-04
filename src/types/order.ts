@@ -14,7 +14,7 @@ export type CreateOrderHistory = {
 
 export default interface OrderItem {
     drink: Drink;
-    customer: Customer;
+    customer?: Customer;
     note?: string;
   }
   

@@ -19,8 +19,6 @@ export default function CartModal({
   onRemove,
   onSave,
 }: CartModalProps) {
-
-  
   return (
     <Dialog open={isOpen} as="div" className="relative z-10" onClose={onClose}>
       {/* Overlay */}
@@ -63,12 +61,6 @@ export default function CartModal({
                     </div>
 
                     <div className="flex items-center gap-2">
-                      <span className="text-gray-500 italic text-xs">
-                        {orderItem.customer.name.trim().split(" ").length > 1
-                          ? `${orderItem.customer.name.trim().split(" ").slice(-2)[0]?.charAt(0)}
-                            .${orderItem.customer.name.trim().split(" ").slice(-1)[0]}`
-                          : orderItem.customer.name}
-                      </span>
                       <button
                         onClick={() => onRemove(index)}
                         className="text-red-500 hover:text-red-700 p-1"
@@ -103,14 +95,19 @@ export default function CartModal({
             <Button
               onClick={() => {
                 if (orderItems.length > 0) {
-                  const text = orderItems
-                    .map((item, idx) => {
-                      const customerName = item.customer.name;
-                      const note = item.note ? ` (${item.note})` : "";
-                      return `${idx + 1}. ${
-                        item.drink.name
-                      } - ${customerName}${note}`;
-                    })
+                  // Tạo key theo tên + note để tách riêng
+                  const drinkCountMap = new Map<string, number>();
+
+                  orderItems.forEach((item) => {
+                    const name = item.drink.name;
+                    const note = item.note?.trim();
+                    const key = note ? `${name} (${note})` : name;
+
+                    drinkCountMap.set(key, (drinkCountMap.get(key) || 0) + 1);
+                  });
+
+                  const text = Array.from(drinkCountMap.entries())
+                    .map(([key, count]) => `${key} - Số lượng:${count}`)
                     .join("\n");
 
                   navigator.clipboard
@@ -131,6 +128,7 @@ export default function CartModal({
             >
               📋 Copy
             </Button>
+
             <Button
               onClick={onSave}
               className="w-full sm:w-1/2 py-2 bg-green-600 text-white rounded-lg text-sm font-semibold hover:bg-gray-400 transition"

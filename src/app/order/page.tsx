@@ -1,25 +1,21 @@
 "use client";
 
 import { Drink } from "@/types/drink";
-import { Customer } from "@/types/customer";
 import HomeButton from "@/components/ButtonHome";
 import CartModal from "@/components/CartModal";
-import CustomerModal from "@/components/CustomerModal";
 import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
 import OrderItem from "@/types/order";
 import Skeleton from "./skeleton";
+import NoteModal from "@/components/NoteModal";
 
 export default function Page() {
   const [isLoading, setIsLoading] = useState(true);
   const [drinks, setDrinks] = useState<Drink[]>([]);
-  const [customers, setCustomers] = useState<Customer[]>([]);
   const [searchDrink, setSearchDrink] = useState("");
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [searchCustomer, setSearchCustomer] = useState("");
   const [orderItems, setOrderItems] = useState<OrderItem[]>([]);
   const [showCart, setShowCart] = useState(false);
-  const [showCustomerModal, setShowCustomerModal] = useState(false);
+  const [showNoteModal, setShowNoteModal] = useState(false);
   const [selectedDrink, setSelectedDrink] = useState<Drink | null>(null);
 
   useEffect(() => {
@@ -31,13 +27,6 @@ export default function Page() {
         );
         const drinksData = await res1.json();
         setDrinks(drinksData || []);
-
-        const res2 = await fetch(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/api/customer`,
-          { cache: "no-store" }
-        );
-        const customerData = await res2.json();
-        setCustomers(customerData || []);
 
         setIsLoading(false);
       } catch (error) {
@@ -54,24 +43,20 @@ export default function Page() {
     drink.name.toLowerCase().includes(searchDrink.toLowerCase())
   );
 
-  const filteredCustomers = customers.filter((customer) =>
-    customer.name.toLowerCase().includes(searchCustomer.toLowerCase())
-  );
-
   const handleOrderClick = (drink: Drink) => {
     setSelectedDrink(drink);
-    setShowCustomerModal(true);
+    setShowNoteModal(true);
   };
 
-  const handleCustomerSelect = (customer: Customer & { note?: string }) => {
+  const handleNote = ({ note }: { note?: string }) => {
     if (selectedDrink) {
       setOrderItems((prev) => [
         ...prev,
-        { drink: selectedDrink, customer, note: customer.note },
+        { drink: selectedDrink, note: note },
       ]);
       toast.success("Đã thêm đơn hàng thành công!");
       setSelectedDrink(null);
-      setShowCustomerModal(false);
+      setShowNoteModal(false);
     }
   };
 
@@ -196,12 +181,11 @@ export default function Page() {
         onSave={handleSaveOrder}
       />
 
-      <CustomerModal
-        isOpen={showCustomerModal}
-        Customers={filteredCustomers}
-        onSelect={handleCustomerSelect}
+      <NoteModal
+        isOpen={showNoteModal}
+        onSelect={handleNote}
         onClose={() => {
-          setShowCustomerModal(false);
+          setShowNoteModal(false);
           setSelectedDrink(null);
         }}
       />
